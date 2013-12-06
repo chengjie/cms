@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%=title%>--0746花桥网</title>
+    <link rel="stylesheet" href="stylesheets/bootstrap.css" />
+    <link rel="stylesheet" href="stylesheets/bootstrap-theme.css" />
+    <link rel="stylesheet" href="stylesheets/style.css" />
+    <link rel="stylesheet" href="stylesheets/account.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="row header">
+            <div class="col-xs-4">
+                <div class="row">
+                    <h1 class="col-xs-12">
+                        0746花桥<span class="small pl15">账号</span>
+                    </h1>
+                </div>
+            </div>
+            <div class="col-xs-8"></div>
+        </div>
+        <div class="row body">
+            <h2 class="col-xs-12 mb50">欢迎加入0746花桥</h2>
+            <div class="reg-pane col-xs-7">
+                <form id="reg_form" class="form-horizontal" action="reg" method="post" role="form">
+                    <div class="form-group">
+                        <label for="nick" class="col-xs-2 control-label">用户名：</label>
+                        <input id="nick" name="nick" class="form-control col-xs-10" type="text" placeholder="请输入号名"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-xs-2 control-label">邮箱：</label>
+                        <input id="email" name="email" class="form-control col-xs-10" type="email" placeholder="请输入邮箱" />
+                    </div>
+                    <div class="form-group">
+                        <label for="pass" class="col-xs-2 control-label">密码：</label>
+                        <input id="pass" name="pass" class="form-control col-xs-10" type="password" placeholder="请输入密码" />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-xs-2 control-label"></label>
+                        <input type="button" class="btn btn-default" id="submit" value="注册">
+                    </div>
+                </form>
+            </div>
+            
+            <div class="login-link col-xs-5">
+                <div class="row">
+                    <p>&gt;&nbsp;已经拥有0746花桥账号?&nbsp;<a href="login.html">直接登录</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="javascripts/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="javascripts/bootstrap.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var checkFlag = true;
+        $('#nick').bind('blur',checkNick);
+        $('#email').bind('blur',checkEmail);
+        $('#submit').bind('click',submitHandler);
+        function submitHandler(){
+            if( !checkFlag ) return ;
+            $(this).addClass('btn-disabled');
+            var data = $('#reg_form').serialize();
+            $.ajax({
+                contentType:'application/x-www-form-urlencoded;charset=utf-8',
+                type:'post',
+                dataType:'json',
+                url:'/reg',
+                data:data,
+                success:successHandler,
+                error:function(){
+                    alert('系统忙!');
+                }
+            });
+            function successHandler(json){
+                var code = json.code;
+                console.log(code);
+                if( code == '500' ){
+                    window.location.href = '/500';
+                }
+                if( code == 'SUC' ){
+                    alert('注册成功!');
+                    window.location.href = '/login';
+                }else{
+                    alert('注册失败!');
+                }
+            }
+        }
+        function checkEmail(e){
+            var email = this.value;
+            var data = {email:email};
+            $.ajax({
+                type:'post',
+                dataType:'json',
+                url:'/checkEmail',
+                data:data,
+                success:successHandler,
+                error:function(msg){
+                    console.log(msg);
+                }
+            });
+            function successHandler(json){
+                var rs = json.rs;
+                if( rs.isExist ){
+                    checkFlag = checkFlag && false;
+                    alert('邮箱已注册!');
+                }
+            }
+        }
+        function checkNick(e){
+            var nick = this.value;
+            $.ajax({
+                type:'get',
+                dataType:'json',
+                url:'/checkNick?nick='+nick,
+                success:successHandler,
+                error:function(msg){
+                    console.log(msg);
+                }
+            });
+            function successHandler(json){
+                var rs = json.rs;
+                if( rs.isExist ){
+                    checkFlag = checkFlag && false;
+                    alert('用户昵称已存在!');
+                };
+            }
+        }       
+    });
+    
+</script>
+</html>

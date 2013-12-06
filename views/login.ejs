@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <% include common/pagehead %>
+   <link rel="stylesheet" href="/stylesheets/account.css" />
+</head>
+<body>
+    <div class="container">
+        <% include common/header %>
+        <div class="row body">
+            <h2 class="col-xs-12 mb50">登录0746花桥</h2>
+            <div class="reg-pane col-xs-7">
+                <form id="login_form" class="form-horizontal" action="login" method="post" role="form">
+                    <div class="form-group">
+                        <label for="username" class="col-xs-2 control-label">账号：</label>
+                        <input id="username" name="username" class="form-control col-xs-10" type="text" placeholder="邮箱、用户名" />
+                    </div>
+                    <div class="form-group">
+                        <label for="pass" class="col-xs-2 control-label">密码：</label>
+                        <input id="pass" name="pass" class="form-control col-xs-10" type="password"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-xs-2 control-label"></label>
+                        <input type="button" class="btn btn-success" id="login_btn" value="登录">
+                    </div>
+                </form>
+            </div>
+            
+            <div class="login-link col-xs-5">
+                <div class="row">
+                    <p>&gt;&nbsp;还没有0746花桥账号?&nbsp;<a href="register.html">立即注册</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="javascripts/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="javascripts/bootstrap.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#login_btn').bind('click',loginHandler);        
+        function loginHandler(){
+            $(this).addClass('btn-disabled');
+            var data = $('#login_form').serialize();
+            $.ajax({
+                contentType:'application/x-www-form-urlencoded;charset=utf-8',
+                type:'post',
+                dataType:'json',
+                url:'/login',
+                data:data,
+                success:successHandler,
+                error:function(){
+                    alert('系统忙!');
+                }
+            });
+            function successHandler(json){
+                if(json.code == 'SUC'){//成功
+                    alert('登录成功!');
+                    window.location.href = '/user/post';  
+                }else if(json.code == 'FAIL_00'){//用户名不存在
+                    alert('用户名不存在!');
+                }else if(json.code == 'FAIL_01'){//密码错误
+                    alert('密码错误!');
+                }
+                /*else if(json.code == 'FAIL'){//不可用状态
+                    alert('状态不可用');
+                }*/
+            }
+        }
+    });    
+</script>
+</html>
