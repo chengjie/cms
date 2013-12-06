@@ -4,6 +4,6 @@ module.exports ={
         user:'cms',
         port:3306,
         password:'6138148',
-        database:'mycms',
+        database:'mycms'
        }
 }
