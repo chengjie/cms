@@ -1,2 +1,9 @@
 body{background:#fefefe;color:#666;}
+.top{background:font-size: 10pt; height: 30px; line-height: 30px; background-color: #15a230; min-width: 998px;}
+.top a , .top a:hover{color:#fff;text-decoration:none;}
+.top a:hover{color:#eee;}
 .header{border-bottom:2px solid #5cb85c;}
+.index-banner{position:relative;height:460px;background-image: linear-gradient(45deg, #020031, #6d3353);}
+.index-banner h1 { font-size: 100px; }
+.carousel-caption { z-index: 10; bottom: 40px; left: 15%; right: 15%; }
+.footer{margin-top:20px;border-top:1px solid #ededed;padding:10px 15px;}

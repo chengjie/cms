@@ -16,7 +16,7 @@ exports.loginPage = function(req,res){
     res.render('login',{title:'用户登录',subtitle:'账号'});    
 }
 exports.regPage = function(req,res){
-    res.render('register',{title:'用户注册'});    
+    res.render('register',{title:'用户注册',subtitle:'账号'});    
 }
 exports.regSubmit = function( req , res ){
     var user = {
