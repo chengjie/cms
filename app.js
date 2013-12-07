@@ -31,7 +31,7 @@ app.use(function(req,res,next){
     var reg = /^\/user(\/\w+)*?$/;
     if(!session.user && reg.test(path) ){//如果session.user不存且是登录用户的页面，则放行
         console.log('unlogin ....\n');
-        res.json(200,{code:'UNLOGIN',msg:'用户未登录'}); 
+        res.redirect('/login');
     }else{
         console.log('not user\'s path or logined ... \n');
         next(); 

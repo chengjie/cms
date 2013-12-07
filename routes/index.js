@@ -2,7 +2,7 @@ var user = require('./user');
 var post = require('./post');
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Express',subtitle:'首页' });
 };
 exports.users = function(req , res){
    user.list(req,res); 
